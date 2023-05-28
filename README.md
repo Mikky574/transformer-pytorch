@@ -132,19 +132,16 @@ $$L=(text{y}_pre-text{y}_real)^2$$
 
 Embedding层正向传播的过程：假设输入为大小为`(batch_size, seq_length)`，元素均为词汇表中的某个词的索引，输出为大小为`(batch_size, seq_length, embedding_dim)`的张量，元素均为对应的词向量。那么正向传播的公式为：
 
-$$
-\mathbf{X}_{\text{out}} = \text{Embedding}(\mathbf{X}_{\text{in}}) \\
-\mathbf{X}_{\text{out}_{i,j}} = \mathbf{W}_{\mathbf{X}_{\text{in}_{i,j}}}
-$$
+$$\mathbf{X}_{\text{out}} = \text{Embedding}(\mathbf{X}_{\text{in}})$$
+
+$$\mathbf{X}_{\text{out}_{i,j}} = \mathbf{W}_{\mathbf{X}_{\text{in}_{i,j}}}$$
 
 其中，$\mathbf{X}_{\text{in}}$是输入张量， $\mathbf{X}_{\text{out}}$是输出张量， $\mathbf{W}$是Embedding层的参数矩阵， $\mathbf{X}_{\text{in}_{i,j}}$和$\mathbf{X}_{\text{out}_{i,j}}$分别表示输入张量和输出张量中第$i$个样本、第$j$个位置的值。
 
 Embedding层反向传播的过程：Embedding层本质上是一种字典映射方法，需要保证不同词之间的梯度不会相互影响。具体来说，反向传播的时候，我们输入的梯度张量是与输出张量相同维度的张量，对于输入张量中的每个元素，输出张量中对应位置的词向量都需要乘以这个梯度值。同时，所有词向量的梯度需要进行累加，作为参数矩阵$\mathbf{W}$的梯度值。那么反向传播的公式为：
 
-$$
-\frac{\partial L}{\partial \mathbf{X}_{\text{in}_{i,j}}} = \frac{\partial L}{\partial \mathbf{X}_{\text{out}_{i,j}}}\cdot \mathbf{W}_{\mathbf{X}_{\text{in}_{i,j}}}\quad \left(\frac{\partial L}{\partial \mathbf{X}_{\text{out}}} \text{已知}\right)\\
-\frac{\partial L}{\partial \mathbf{W}_{k}} = \sum_{i=1}^{batch\_size}\sum_{j=1}^{seq\_length}\frac{\partial L}{\partial \mathbf{X}_{\text{out}_{i,j}}}\cdot\mathbf{1}_{[\mathbf{X}_{\text{in}_{i,j}}=k]}\quad \left(\mathbf{1}_{[\mathbf{X}_{\text{in}_{i,j}}=k]} \text{为1当且仅当} \mathbf{X}_{\text{in}_{i,j}}=k\right)
-$$
+$$\frac{\partial L}{\partial \mathbf{X}_{\text{in}_{i,j}}} = \frac{\partial L}{\partial \mathbf{X}_{\text{out}_{i,j}}}\cdot \mathbf{W}_{\mathbf{X}_{\text{in}_{i,j}}}\quad \left(\frac{\partial L}{\partial \mathbf{X}_{\text{out}}} \text{已知}\right)\\
+\frac{\partial L}{\partial \mathbf{W}_{k}} = \sum_{i=1}^{batch\_size}\sum_{j=1}^{seq\_length}\frac{\partial L}{\partial \mathbf{X}_{\text{out}_{i,j}}}\cdot\mathbf{1}_{[\mathbf{X}_{\text{in}_{i,j}}=k]}\quad \left(\mathbf{1}_{[\mathbf{X}_{\text{in}_{i,j}}=k]} \text{为1当且仅当} \mathbf{X}_{\text{in}_{i,j}}=k\right)$$
 
 其中，$L$是损失函数，$\frac{\partial L}{\partial \mathbf{X}_{\text{in}_{i,j}}}$、$\frac{\partial L}{\partial \mathbf{X}_{\text{out}_{i,j}}}$、$\mathbf{X}_{\text{in}_{i,j}}$、$\mathbf{X}_{\text{out}_{i,j}}$和$\mathbf{W}_{\mathbf{X}_{\text{in}_{i,j}}}$的含义同上。
 
