@@ -22,10 +22,10 @@ class TranslationDatasetOnTheFly:
         else:
             raise NotImplementedError()
 
-        with open(source_filepath) as source_file:
+        with open(source_filepath, encoding='utf-8') as source_file:
             self.source_data = source_file.readlines()
 
-        with open(target_filepath) as target_filepath:
+        with open(target_filepath, encoding='utf-8') as target_filepath:
             self.target_data = target_filepath.readlines()
 
     def __getitem__(self, item):
@@ -51,7 +51,7 @@ class TranslationDataset:
         self.limit = limit
 
         self.data = []
-        with open(join(data_dir, f'raw-{phase}.txt')) as file:
+        with open(join(data_dir, f'raw-{phase}.txt'), encoding='utf-8') as file:
             for line in file:
                 source, target = line.strip().split('\t')
                 self.data.append((source, target))
@@ -83,13 +83,13 @@ class TranslationDataset:
                 source_filepath = val_source
                 target_filepath = val_target
 
-            with open(source_filepath) as source_file:
+            with open(source_filepath, encoding='utf-8') as source_file:
                 source_data = source_file.readlines()
 
-            with open(target_filepath) as target_filepath:
+            with open(target_filepath, encoding='utf-8') as target_filepath:
                 target_data = target_filepath.readlines()
 
-            with open(join(save_data_dir, f'raw-{phase}.txt'), 'w') as file:
+            with open(join(save_data_dir, f'raw-{phase}.txt'), 'w', encoding='utf-8') as file:
                 for source_line, target_line in zip(source_data, target_data):
                     source_line = source_line.strip()
                     target_line = target_line.strip()
@@ -198,7 +198,7 @@ class IndexedInputTargetTranslationDataset:
         self.data = []
 
         unknownify = lambda index: index if index < vocabulary_size else UNK_INDEX
-        with open(join(data_dir, f'indexed-{phase}.txt')) as file:
+        with open(join(data_dir, f'indexed-{phase}.txt'), encoding='utf-8') as file:
             for line in file:
                 sources, inputs, targets = line.strip().split('\t')
                 if vocabulary_size is not None:
@@ -246,7 +246,7 @@ class IndexedInputTargetTranslationDataset:
         for phase in ('train', 'val'):
             input_target_dataset = InputTargetTranslationDataset(data_dir, phase)
 
-            with open(join(data_dir, f'indexed-{phase}.txt'), 'w') as file:
+            with open(join(data_dir, f'indexed-{phase}.txt'), 'w', encoding='utf-8') as file:
                 for sources, inputs, targets in input_target_dataset:
                     indexed_sources = join_indexes(source_dictionary.index_sentence(sources))
                     indexed_inputs = join_indexes(target_dictionary.index_sentence(inputs))

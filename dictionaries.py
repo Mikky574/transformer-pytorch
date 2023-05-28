@@ -64,7 +64,7 @@ class IndexDictionary:
     def save(self, data_dir):
 
         vocabulary_filepath = join(data_dir, f'vocabulary-{self.mode}.txt')
-        with open(vocabulary_filepath, 'w') as file:
+        with open(vocabulary_filepath, 'w', encoding='utf-8') as file:
             for vocab_index, (vocab_token, count) in enumerate(zip(self.vocab_tokens, self.token_counts)):
                 file.write(str(vocab_index) + '\t' + vocab_token + '\t' + str(count) + '\n')
 
@@ -74,7 +74,7 @@ class IndexDictionary:
 
         vocab_tokens = {}
         token_counts = []
-        with open(vocabulary_filepath) as file:
+        with open(vocabulary_filepath, encoding='utf-8') as file:
             for line in file:
                 vocab_index, vocab_token, count = line.strip().split('\t')
                 vocab_index = int(vocab_index)

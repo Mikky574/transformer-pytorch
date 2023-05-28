@@ -72,7 +72,7 @@ class EpochSeq2SeqTrainer:
             "Learning rate: {current_lr:<.4} "
         )
 
-    def run_epoch(self, dataloader, mode='train'):
+    def run_epoch(self, dataloader, mode='train'):#一个epoch里面的
         batch_losses = []
         batch_counts = []
         batch_metrics = []
@@ -93,6 +93,7 @@ class EpochSeq2SeqTrainer:
             batch_counts.append(batch_count)
 
             batch_metric, batch_metric_count = self.metric_function(outputs, targets)
+            #这个是用来计算准确率的，但为什么这里叫metric矩阵呢，算了，不重要
             batch_metrics.append(batch_metric)
 
             assert batch_count == batch_metric_count

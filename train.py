@@ -33,6 +33,9 @@ parser.add_argument('--print_every', type=int, default=1)
 parser.add_argument('--save_every', type=int, default=1)
 
 parser.add_argument('--vocabulary_size', type=int, default=None)
+# parser.add_argument('--vocabulary_size_sc', type=int, default=None)
+# parser.add_argument('--vocabulary_size_tr', type=int, default=None)
+
 parser.add_argument('--positional_encoding', action='store_true')
 
 parser.add_argument('--d_model', type=int, default=128)

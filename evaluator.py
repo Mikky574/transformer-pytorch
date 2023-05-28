@@ -21,7 +21,7 @@ class Evaluator:
         list_of_references = [[tokenize(target)] for source, target in test_dataset]
         smoothing_function = SmoothingFunction()
 
-        with open(self.save_filepath, 'w') as file:
+        with open(self.save_filepath, 'w',encoding='utf-8') as file:
             for (source, target), prediction, hypothesis, references in zip(test_dataset, predictions,
                                                                             hypotheses, list_of_references):
                 sentence_bleu_score = sentence_bleu(references, hypothesis,
